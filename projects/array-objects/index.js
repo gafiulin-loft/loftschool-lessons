@@ -26,9 +26,11 @@ function forEach(array, fn) {
  */
 function map(array, fn) {
   const newArray = new Array();
+
   for (let i = 0; i < array.length; i++) {
     newArray[i] = fn(array[i], i, array);
   }
+
   return newArray;
 }
 
@@ -43,13 +45,16 @@ function map(array, fn) {
  */
 function reduce(array, fn, initial) {
   let i = 0;
+
   if (!initial) {
     initial = array[0];
     i++;
   }
+
   for (; i < array.length; i++) {
     initial = fn(initial, array[i], i, array);
   }
+
   return initial;
 }
 
@@ -63,9 +68,11 @@ function reduce(array, fn, initial) {
  */
 function upperProps(obj) {
   const array = new Array();
+
   for (const elem in obj) {
     array.push(elem.toUpperCase());
   }
+
   return array;
 }
 
