@@ -30,6 +30,7 @@
  */
 
 import './towns.html';
+import { loadAndSortTowns } from './functions';
 
 const homeworkContainer = document.querySelector('#homework-container');
 
@@ -40,27 +41,7 @@ const homeworkContainer = document.querySelector('#homework-container');
  https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json
  */
 function loadTowns() {
-  const promise = new Promise((resolve, reject) => {
-    const request = new XMLHttpRequest();
-    request.open(
-      'GET',
-      'https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json',
-      true
-    );
-    request.addEventListener('readystatechange', function () {
-      if (request.readyState === 4 && request.status === 200) {
-        const towns = JSON.parse(request.responseText);
-
-        towns.sort((a, b) => {
-          return a.name > b.name ? 1 : -1;
-        });
-        resolve(towns);
-      }
-    });
-    request.send();
-  });
-
-  return promise;
+  return loadAndSortTowns();
 }
 
 /*
