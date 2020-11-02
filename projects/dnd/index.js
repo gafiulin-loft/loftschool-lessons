@@ -19,10 +19,50 @@ import './dnd.html';
 
 const homeworkContainer = document.querySelector('#app');
 
-document.addEventListener('mousemove', (e) => {});
+export function createDiv() {
+  const elem = document.createElement('div');
+  const height = randomInteger(100, 300);
+  const width = randomInteger(100, 300);
+  elem.style.height = `${height}px`;
+  elem.style.width = `${width}px`;
+  elem.style.background = 'red';
+  elem.style.top = `${randomInteger(
+    100,
+    document.documentElement.clientHeight - height
+  )}px`;
+  elem.style.left = `${randomInteger(
+    100,
+    document.documentElement.clientHeight - width
+  )}px`;
+  elem.classList.add('draggable-div');
+  elem.draggable = true;
+  return elem;
+}
 
-export function createDiv() {}
+function randomInteger(min, max) {
+  const rand = min + Math.random() * (max + 1 - min);
+  return Math.floor(rand);
+}
 
 const addDivButton = homeworkContainer.querySelector('#addDiv');
 
-addDivButton.addEventListener('click', function () {});
+addDivButton.addEventListener('click', function () {
+  homeworkContainer.append(createDiv());
+});
+
+let currentElem;
+
+document.addEventListener('dragstart', (e) => {
+  currentElem = e.target;
+
+  e.dataTransfer.setData('text/html', 'dragstart');
+});
+
+document.addEventListener('dragover', (e) => {
+  e.preventDefault();
+});
+
+document.addEventListener('drop', (e) => {
+  currentElem.style.top = `${e.pageY - currentElem.offsetHeight / 2}px`;
+  currentElem.style.left = `${e.pageX - currentElem.offsetWidth / 2}px`;
+});
