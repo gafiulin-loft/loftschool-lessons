@@ -76,10 +76,15 @@ addButton.addEventListener('click', () => {
   changeCookies();
 });
 
-listTable.addEventListener('click', (e) => {});
+listTable.addEventListener('click', (e) => {
+  if (e.target.tagName === 'BUTTON') {
+    deleteCookie(e.target.getAttribute('name'));
+  }
+});
 
 function getCookieTable(cookies) {
   listTable.innerHTML = '';
+  const fragment = document.createDocumentFragment();
 
   if (document.cookie) {
     for (const cookie in cookies) {
@@ -97,19 +102,19 @@ function getCookieTable(cookies) {
       const button = document.createElement('button');
 
       button.textContent = 'Удалить';
+      button.setAttribute('name', name);
 
       tdButton.append(button);
 
       tr.append(tdName);
       tr.append(tdValue);
       tr.append(tdButton);
+      tr.setAttribute('id', name);
 
-      listTable.append(tr);
-
-      button.addEventListener('click', () => {
-        deleteCookie(name);
-      });
+      fragment.append(tr);
     }
+
+    listTable.appendChild(fragment);
   }
 }
 
@@ -135,8 +140,10 @@ function deleteCookie(name) {
   date = date.toUTCString();
 
   document.cookie = `${name}=''; expires=${date}`;
+  console.log(`${name}=''; expires=${date}`);
 
-  getCookieTable(getCookies());
+  const elem = document.getElementById(name);
+  listTable.removeChild(elem);
 }
 
 getCookieTable(getCookies());
