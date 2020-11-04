@@ -140,7 +140,6 @@ function deleteCookie(name) {
   date = date.toUTCString();
 
   document.cookie = `${name}=''; expires=${date}`;
-  console.log(`${name}=''; expires=${date}`);
 
   const elem = document.getElementById(name);
   listTable.removeChild(elem);
